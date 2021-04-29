@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<context:annotation-config />
+	
+	<bean id="memberDao" class="com.example.demo.MemberDao" > </bean>
+	<bean id="memberRegSvc" class="com.example.demo.MemberRegisterService"></bean>
+	
+	<bean id="infoPrinter" class="com.example.demo.InfoPrinter"></bean>
+	<bean id="memberPrinter" class="com.example.demo.MemberPrinter"></bean>
+	<bean id="bookPrinter" class="com.example.demo.BookPrinter"></bean>
+	<bean id="rentalPrinter" class="com.example.demo.RentalPrinter"></bean>
+	
+	<bean id="logoutSvc" class="com.example.demo.LogoutService"></bean>
+	<bean id="loginReqSvc" class="com.example.demo.LoginRequestService"></bean>
+	
+	<bean id="changePwSvc" class="com.example.demo.ChangePasswordService"></bean>
+	
+	<bean id="adminMnSvc" class="com.example.demo.AdminMenuService"></bean>
+	<bean id="adminSBMnSvc" class="com.example.demo.AdminSubBookMenuService"></bean>
+	
+	<bean id="userMnSvc" class="com.example.demo.UserMenuService"></bean>
+	
+	<bean id="bookDao" class="com.example.demo.BookDao" > </bean>
+	<bean id="bookRegSvc" class="com.example.demo.BookRegisterService"></bean>
+	<bean id="bookDelSvc" class="com.example.demo.BookDeleteService"></bean>
+	
+	<bean id="rentalDao" class="com.example.demo.RentalDao" > </bean>
+	<bean id="rentalReqSvc" class="com.example.demo.RentalRequestService"></bean>
+	<bean id="rentalRetSvc" class="com.example.demo.RentalReturnService"></bean>
+
+</beans>
+
