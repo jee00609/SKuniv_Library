@@ -1,8 +1,11 @@
 package com.example.demo;
 
+
+//관리자 저장
 public class Utils {
 
 
+	//관리자 이메일이자 비번
 	private final String ADMIN = "admin";
 
 	//https://shxrecord.tistory.com/132

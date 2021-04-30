@@ -11,12 +11,15 @@ public class Book implements Serializable{
 	private String publisher;
 	private String bookStatus;
 	
+	private String rentalUsers;
+	
 	public Book(String bookISBN,String bookTitle, String author, String publisher) {
 		this.bookISBN = bookISBN;
 		this.bookTitle = bookTitle;
 		this.author = author;
 		this.publisher = publisher;
 		setBookStatus("비치중");
+		setRentalUsers(null);
 	}
 
 
@@ -52,5 +55,17 @@ public class Book implements Serializable{
 	public void setBookStatus(String bookStatus) {
 		this.bookStatus = bookStatus;
 	}
+
+
+	public String getRentalUsers() {
+		return rentalUsers;
+	}
+
+
+	public void setRentalUsers(String rentalUsers) {
+		this.rentalUsers = rentalUsers;
+	}
+	
+	
 	
 }

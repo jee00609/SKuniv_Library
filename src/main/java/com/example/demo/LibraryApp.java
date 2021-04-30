@@ -108,6 +108,15 @@ public class LibraryApp {
 										infoPrinter.printBookInfoByTitle(adminSearchBookTitle);
 									}
 								}
+								//도서 삭제
+								else if (adminBook==5) {
+									System.out.println();
+									System.out.println(
+											"=======================================================================================");
+									System.out.print("도서 ISBN 검색 > ");
+									String adminSearchOverdueBookISBN = sc.nextLine();
+									infoPrinter.showAdminOverdue(adminSearchOverdueBookISBN);
+								}
 							}
 							else if (adminMenuStart==2) {
 								System.out.println("관리자 회원관리 리턴");
@@ -191,6 +200,7 @@ public class LibraryApp {
 						}
 					}
 					break;
+				// 비밀 번호 수정
 				case 3:
 					changePwSvc.changePw();
 					break;

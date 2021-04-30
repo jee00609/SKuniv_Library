@@ -68,12 +68,13 @@ public class MemberDao {
 		}
 	}
 	
-	
+	// 회원 추가
 	public void insert(Member member) {
 		member.setId(++nextId);
 		map.put(member.getEmail(), member);
 	}
 	
+	// 회원 수정
 	public void update(Member member) {
 		map.put(member.getEmail(), member);
 	}

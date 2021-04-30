@@ -36,7 +36,7 @@ public class RentalReturnService {
 		this.rentalDao = rentalDao;
 	}
 	
-	//return 으로 이름짓고 싶은데 안되네
+	
 	public void returnB(String user) {
 		System.out.println();
 		System.out.println("도서 반납을 진행합니다.");
@@ -47,21 +47,11 @@ public class RentalReturnService {
 		
 		Rental rental = rentalDao.selectByBookISBN(bookISBN);
 //		System.out.println("왜 비어있니 rental 아아악 "+rental);
-		if (rental !=null) {
-			String rentalUser = rental.getUserEmail();
-//			System.out.println("왜 비어있니 rentalUser 아아악 "+rentalUser);
-			
-			if(user.equals(rentalUser)) {
-				Book book = bookDao.selectByBookISBN(bookISBN);
-				
-				rentalDao.remove(bookISBN);
-				book.setBookStatus("비치중");
-				
-				System.out.println("반납하였습니다.");
-			}
-			else{
-				System.out.println("대여를 한 사용자가 아닙니다.");
-			}
+		if(rental.getBookISBN().equals(bookISBN)&&rental.getUserEmail().equals(user)) {
+			Book book = bookDao.selectByBookISBN(bookISBN);
+			rentalDao.remove(bookISBN);
+			book.setBookStatus("비치중");
+			book.setRentalUsers(null);
 		}
 		else {
 			System.out.println("대여한 책이 아닙니다.");

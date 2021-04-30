@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,6 +17,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class RentalDao {
+	
+	
+	private static long rentalNo;
+	
 	
 	private Map<String, Rental> map = new HashMap<String, Rental>();
 	private static final String RENTAL_FILE = "rentals.data"; // 대여 정보를 저장할 파일 경로 및 파일 이름
@@ -36,8 +43,6 @@ public class RentalDao {
 	
 	//도서 ISBN 으로 검색
 	public Rental selectByBookISBN(String bookISBN) {
-//		System.out.println("selectisbn "+map);
-//		System.out.println("selectisbn2 "+map.get(bookISBN));
 		return map.get(bookISBN);
 	}
 	
@@ -69,11 +74,32 @@ public class RentalDao {
 		return list;
 	}
 	
+	public void showOverdue(String bookISBN) {
+		Rental rental = map.get(bookISBN);
+		
+		LocalDate today = LocalDate.now();
+		LocalDate duedate = map.get(rental.getBookISBN()).getDueDate();
+		
+		if (today.isAfter(duedate)) {
+			long period = ChronoUnit.DAYS.between(today,duedate);
+			System.out.println(period+"일 만큼 연체중 입니다.");
+		}
+		else {
+			long period = ChronoUnit.DAYS.between(today,duedate);
+			System.out.println(period+"일 만큼 남았습니다.");
+		}
+		
+		
+		
+	}
 	
+	//대여
 	public void insert(Rental rental) {
+		rental.setRentalNo(++rentalNo);
 		map.put(rental.getBookISBN(),rental);
 	}
 	
+	//반납
 	public void remove(String bookISBN) {
 		map.remove(bookISBN);
 	}
@@ -110,7 +136,9 @@ public class RentalDao {
 					e.printStackTrace();
 				}
 			}
-		} catch (IOException e) {
+			else System.out.println("rental size <=0");
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

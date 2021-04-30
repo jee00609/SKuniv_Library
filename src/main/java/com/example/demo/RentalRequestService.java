@@ -39,7 +39,7 @@ public class RentalRequestService {
 	
 	public void regist(String user) {
 		System.out.println();
-		System.out.println("도서 대출을 진행합니다.");
+		System.out.println("도서 대여를 진행합니다.");
 		System.out.println();
 		
 		System.out.print("도서 ISBN > ");
@@ -60,10 +60,13 @@ public class RentalRequestService {
 		if (book != null) {
 			canRental = book.getBookStatus();
 			if (canRental.equals("비치중")) {
-				book.setBookStatus("대여중");
 				Rental rental = new Rental(rentalReq.getBookISBN(),rentalReq.getUserEmail(),rentalReq.getRentalDate(),rentalReq.getDueDate());
 				rentalDao.insert(rental);
-				System.out.println(book.getBookTitle()+" 을 대여하였습니다.");
+				//대여 로 변환
+				book.setBookStatus("대여중");
+				//누가 빌렸는가
+				book.setRentalUsers(userEmail);
+				System.out.println(user+" 님이"+book.getBookTitle()+" 을 대여하였습니다.");
 			}
 			else{
 				System.out.println("이미 대여중인 책입니다.");

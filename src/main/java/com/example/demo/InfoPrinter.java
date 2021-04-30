@@ -129,26 +129,30 @@ public class InfoPrinter {
 			System.out.println("대여 데이터 없음\n");
 			return;
 		}
+		System.out.println(
+				"=======================================================================================");
 		rentalPrinter.print(rental);
+		System.out.println(
+				"\n=======================================================================================");
 		System.out.println();
 	}
 	
 	//대여 검색
-	//특정 사용자가 빌린 책들만
+	//특정 사용자가 빌렸었던 책들만
+	//히스토리 기능
 	public void printRentalInfoByemail(String email) {
 		List<Rental> list = new ArrayList<>();
 		list = rentalDao.selectByEmail(email);
 
-		if (list.size()==0) {
-			System.out.println(
-					"=======================================================================================");
-			System.out.println("대여 데이터 없음\n");
-			System.out.println(
-					"=======================================================================================");
+		if (list == null) {
+			System.out.println("히스토리 데이터 없음\n");
+			return;
 		}
-		if (list != null) {
+		else {
 			System.out.println(
 					"=======================================================================================");
+			System.out.println(
+					"\t\t\t현재까지의 기록\n");
 			//https://bvc12.tistory.com/165 참고
 			for(Rental rental : list) {
 				rentalPrinter.print(rental);
@@ -159,12 +163,30 @@ public class InfoPrinter {
 		}
 	}
 	
+
+	
+	public void showAdminOverdue(String bookISBN){
+		System.out.println(
+				"=======================================================================================");
+		rentalDao.showOverdue(bookISBN);
+		System.out.println(
+				"=======================================================================================");
+	}
+	
 	
 	public void showBook() {
+		System.out.println(
+				"=======================================================================================");
 		bookDao.showAllBooks();
+		System.out.println(
+				"=======================================================================================");
 	}
 	
 	public void showMember() {
+		System.out.println(
+				"=======================================================================================");
 		memDao.showAllMembers();
+		System.out.println(
+				"=======================================================================================");
 	}
 }

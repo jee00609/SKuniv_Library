@@ -23,7 +23,7 @@ public class AdminSubBookMenuService {
 				System.out.println();
 				System.out.println(
 						"=======================================================================================");
-				System.out.println("1.전체 도서   2.도서 등록   3.도서 삭제   4.도서 검색   0.관리자 로그아웃");
+				System.out.println("1.전체 도서   2.도서 등록   3.도서 삭제   4.도서 검색   5.연체 검색   0.관리자 로그아웃");
 				System.out.println(
 						"=======================================================================================");
 				System.out.print("선택 > ");
@@ -31,7 +31,7 @@ public class AdminSubBookMenuService {
 				sc.nextLine();
 				
 				// 관리자 로그아웃
-				if ((input != 0)&&(input != 1)&&(input != 2)&&(input != 3)&&(input != 4)) {
+				if ((input != 0)&&(input != 1)&&(input != 2)&&(input != 3)&&(input != 4)&&(input != 5)) {
 					System.out.println("알 수 없는 입력입니다. 다시 입력해주세요.");
 				}
 				else {

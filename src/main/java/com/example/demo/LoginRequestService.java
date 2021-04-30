@@ -80,18 +80,11 @@ public class LoginRequestService {
 		}
 	}
 	
+	//현재 이메일 리턴
 	public String loginEmail() {
 		return loginRequest.getEmail();
 	}
 	
-//	public LoginRequest getLoginRequest() {
-//		return loginRequest;
-//	}
-	
-//	// 현재 로그인 멤버 반환
-//	public Long getId() {
-//		return loginRequest.getId();
-//	}
 	
 	
 }
