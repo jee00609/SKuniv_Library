@@ -59,7 +59,7 @@ public class Member implements Serializable{
 	
 	public void changePassword(String oldPassword, String newPassword) {
 		if (!password.equals(oldPassword))
-			throw new IdPasswordNotMatchingException();
+			throw new IdPasswordNotMatchingException("ChangePassword 실패");
 		this.password = newPassword;
 	}
 

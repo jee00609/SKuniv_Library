@@ -163,15 +163,23 @@ public class InfoPrinter {
 		}
 	}
 	
-
-	
-	public void showAdminOverdue(String bookISBN){
-		System.out.println(
-				"=======================================================================================");
-		rentalDao.showOverdue(bookISBN);
-		System.out.println(
-				"=======================================================================================");
+	//연체중인지
+	public void printIsOverdue(String searchISBN) {
+		Book book = bookDao.selectByBookISBN(searchISBN);
+		if((book!=null)&&(book.getBookStatus().equals("대여중"))) {
+			String ISBN = book.getBookISBN();
+			System.out.println(
+					"=======================================================================================");
+			rentalDao.showOverdue(ISBN);
+			System.out.println(
+					"=======================================================================================");
+		}
+		else {
+			System.out.println("책이 존재하지 않거나 비치중입니다.");
+		}
+		
 	}
+	
 	
 	
 	public void showBook() {

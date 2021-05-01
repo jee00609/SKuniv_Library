@@ -108,14 +108,14 @@ public class LibraryApp {
 										infoPrinter.printBookInfoByTitle(adminSearchBookTitle);
 									}
 								}
-								//도서 삭제
+								//연체 검색
 								else if (adminBook==5) {
 									System.out.println();
 									System.out.println(
 											"=======================================================================================");
 									System.out.print("도서 ISBN 검색 > ");
 									String adminSearchOverdueBookISBN = sc.nextLine();
-									infoPrinter.showAdminOverdue(adminSearchOverdueBookISBN);
+									infoPrinter.printIsOverdue(adminSearchOverdueBookISBN);
 								}
 							}
 							else if (adminMenuStart==2) {
@@ -216,10 +216,11 @@ public class LibraryApp {
 			e.printStackTrace();
 		}
 		
-
-		infoPrinter.printMemberInfo("jee00609@naver.com");
-		infoPrinter.printBookInfoByISBN("9788964212660");
-		infoPrinter.printRentalByISBN("9788964212660");
+//		테스트
+//		infoPrinter.printMemberInfo("jee00609@naver.com");
+//		infoPrinter.printBookInfoByISBN("9788964212660");
+//		infoPrinter.printRentalByISBN("9788964212660");
+		infoPrinter.printIsOverdue("9788964212660");
 		ctx.close();
 	}
 	

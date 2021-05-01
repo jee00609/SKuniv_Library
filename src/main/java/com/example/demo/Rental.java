@@ -12,11 +12,13 @@ public class Rental implements Serializable{
 	private String bookISBN;
 	//사용자
 	private String userEmail;
-	//언제 책 빌렸는지
+	//언제 책 빌렸는지 (히스토리 기능)
 	private LocalDate rentalDate;
-	//반납 예정 만기일(7일로 잡을까)
+	//반납 예정 만기일(7일로 잡는다) - 연체 인지 아닌지 알 수 있도록!
 	private LocalDate dueDate;
 	//연체 기간 알아보기
+	//함수를 만들었는데 이 변수를 사용안했다.
+	//만일을 위해 남겨둬야징
 	private int overDue;
 	
 	

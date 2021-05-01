@@ -79,14 +79,15 @@ public class RentalDao {
 		
 		LocalDate today = LocalDate.now();
 		LocalDate duedate = map.get(rental.getBookISBN()).getDueDate();
+		String email = map.get(bookISBN).getUserEmail();
 		
 		if (today.isAfter(duedate)) {
 			long period = ChronoUnit.DAYS.between(today,duedate);
-			System.out.println(period+"일 만큼 연체중 입니다.");
+			System.out.println(email+" 님이 "+period+"일 만큼 연체중 입니다.");
 		}
 		else {
 			long period = ChronoUnit.DAYS.between(today,duedate);
-			System.out.println(period+"일 만큼 남았습니다.");
+			System.out.println("현재 이책은 "+period+"일 만큼 남았습니다.");
 		}
 		
 		
