@@ -4,15 +4,18 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
+//대여 모델
 public class Rental implements Serializable{
 	
+	// PPT 참고해서 구현
+	// 솔직히 꼭 필요한 변수라곤 볼 수 없는 듯
 	private long rentalNo;
 
 	//책 ISBN
 	private String bookISBN;
 	//사용자
 	private String userEmail;
-	//언제 책 빌렸는지 (히스토리 기능)
+	//언제 책 빌렸는지 (연체)
 	private LocalDate rentalDate;
 	//반납 예정 만기일(7일로 잡는다) - 연체 인지 아닌지 알 수 있도록!
 	private LocalDate dueDate;
@@ -24,7 +27,6 @@ public class Rental implements Serializable{
 	
 
 	//Source 에서 Constructor 만들 수 있단게 신의 한수다
-	//못해먹겠어으ㅏ아앙가	
 	public Rental(String bookISBN, String userEmail, LocalDate rentalDate, LocalDate dueDate) {
 		this.bookISBN = bookISBN;
 		this.userEmail = userEmail;
@@ -47,11 +49,12 @@ public class Rental implements Serializable{
 
 
 
-
+	//Book 모델의 ISBN 코드를 사용할 변수
 	public String getBookISBN() {
 		return bookISBN;
 	}
 
+	//Member 모델의 e-mail 을 사용할 변수
 	public String getUserEmail() {
 		return userEmail;
 	}

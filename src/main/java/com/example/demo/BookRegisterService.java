@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+//추가 기능 - 도서 등록 기능
 public class BookRegisterService {
 	
 	private BookDao bookDao;
@@ -44,14 +45,17 @@ public class BookRegisterService {
 		publisher = sc.nextLine();
 		req.setPublisher(publisher);
 
-		
+		//도서 ISBN 이 이미 존재하는지 검색한다.
 		Book book = bookDao.selectByBookISBN(req.getBookISBN());
+		//해당 ISBN 으로 책이 존재할 경우
 		if (book != null) {
 			throw new AlreadyExistingException("중복 ISBN " + req.getBookISBN());
 		}
-		
-		Book newBook = new Book(req.getBookISBN(),req.getBookTitle(),req.getAuthor(),req.getPublisher());
-		bookDao.insert(newBook);
+		//없을 경우
+		else {
+			Book newBook = new Book(req.getBookISBN(),req.getBookTitle(),req.getAuthor(),req.getPublisher());
+			bookDao.insert(newBook);
+		}
 		
 	}
 }

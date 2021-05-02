@@ -17,12 +17,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
+//회원 클래스에 대한 기능들 제공
+//각종 서비스 클래스에서 요놈들을 가져간다. WA!
 public class MemberDao {
+	//책참고(스프링 5 입문) 2020-05-02 ppt 에서 했다고 기억했는데 아니더라
 	private static long nextId = 0;
-	
 	private Map<String, Member> map = new HashMap<String, Member>();
-	private static final String USER_FILE = "users.data"; // 사용자 정보를 저장할 파일 경로 및 파일 이름
+	// .dat 파일로 저장한다. 직렬화 역직렬화 사용
+	// txt 파일보다 더 쉽게 긁어올 수 있다는 장점이 있다.
+	// 사용자 정보를 저장할 파일 경로 및 파일 이름
+	private static final String MEMBER_FILE = "members.dat";
 	
 	public Member selectByEmail(String email) { return map.get(email); }
 	
@@ -41,7 +45,7 @@ public class MemberDao {
 		
 		while (it.hasNext()) {
 			String keyTemp = (String) it.next();
-			// Book 타입의 임시 변수 선언 후 map 맵 객체의 값 할당
+			// Member 타입의 임시 변수 선언 후 map 맵 객체의 값 할당
 			Member m = this.map.get(keyTemp);
 			// 매개변수로 입력받은 도서 제목과 일치하는 값이 있다면
 			if (m.getName().equals(name)) {
@@ -55,14 +59,15 @@ public class MemberDao {
 	}
 	
 	// 파일 불러오기를 위한 메소드 선언
-	@SuppressWarnings("unchecked") // obj 캐스팅 컴파일 경고를 사용하지 않도록 설정
+	// obj 캐스팅 컴파일 경고를 사용하지 않도록 설정
+	@SuppressWarnings("unchecked")
 	public MemberDao() {
-		File file = new File(USER_FILE);
+		File file = new File(MEMBER_FILE);
 		Object obj = null;
 		// 사용자 정보 파일이 존재 할 경우라면
 		if (file.exists()) {
 			// 역직렬화 해서 파일 가져오기
-			obj = deSerialization(USER_FILE);
+			obj = deSerialization(MEMBER_FILE);
 			// 역직렬화한 파일을 사용자 정보를 저장한 저장소에 할당
 			this.map = (Map<String, Member>) obj;
 		}
@@ -75,15 +80,13 @@ public class MemberDao {
 	}
 	
 	// 회원 수정
+	// 이미 KEY 값이 존재할 때 똑같은 KEY 값으로 VALUE 입력시 덮어써버리는 것을 이용해서 간단히 만듬
 	public void update(Member member) {
 		map.put(member.getEmail(), member);
 	}
 	
-	
-	public Collection<Member> selectAll() { return map.values(); }
-	
-	// 사용자 객체 저장소에 존재 여부 확인용 메소드 선언
-	// @Param 사용자 이메일, 사용자 비밀번호 범용적으로 사용 가능한 메소드. (현재 사용자 설정용, 사용자 존재 여부)
+	// 사용자 존재 여부 확인용
+	// 프라이머리 키인 e-mail 을 기준으로 하기에 단 하나의 e-mail 만 찾아도 break 하게 작성
 	public Member getCurrentUser(String email, String password) {
 		// 결과 값으로 넘길 User 타입 변수 생성
 		Member user = null;
@@ -102,7 +105,7 @@ public class MemberDao {
 			Member m = this.map.get(keyTemp);
 //			System.out.println("email is "+email);
 //			System.out.println("m is "+m.getEmail());
-			// 매개변수로 입력받은 사용자 이메일 및 비밀번호가 일치하는 값이 있다면
+			// e-mail 및 비밀번호가 일치하는 값이 있다면
 			if (m.getEmail().equals(email) && m.getPassword().equals(password)) {
 				// 결과 값을 리턴할 유저 변수에 할당
 				user = m;
@@ -110,10 +113,13 @@ public class MemberDao {
 				break;
 			}
 		}
-		// 결과 값 리턴 -> 결과 값이 null이라면, 사용자가 없다는 뜻이다. 가져다 쓸 때 널 체크 필수!
+		// 결과 값 리턴해주는데 null 값이면 사용자가 없다는 것!
 		return user;
 	}
 	
+	// LoginRequest 서비스 및 ChangePasswordService 에서 사용
+	// member.dat 에서 꺼내온 값들에 대해서 map 에 저장해뒀는데
+	// 이걸 현재 사용자가 입력한 값과 일치하는지 확인해주는 함수
 	public boolean isWrongPassword(String email, String password) {
 		boolean result = false;
 		Set<String> key = this.map.keySet();
@@ -131,6 +137,8 @@ public class MemberDao {
 	}
 	
 	//전체 회원 목록 출력
+	//BookDao 랑 사용하는 해시맵만 다르지 알고리즘은 완벽히 똑같다. 양산형이라고 볼 수 있다.
+	// 솔직히 리팩토링 해보고 싶긴한데 이건 나중에 기말고사 때 시도해보기로 하자
 	public void showAllMembers() {
 		System.out.println();
 		System.out.println("전체 회원 목록 입니다.");
@@ -159,40 +167,42 @@ public class MemberDao {
 		System.out.println(sb.toString());
 	}
 	
-	
+	// members.dat 파일 생성
+	// 자바 시스템 내부에서 사용되는 객체 또는 데이터를 외부의 자바 시스템에서도 사용할 수 있도록 바이트(byte) 형태로 데이터 변환하는 기술과 바이트로 변환된 데이터를 다시 객체로 변환하는 기술
+	// java.io.NotSerializableException 에러 발생!!!!!!!!! 이거 어케 고쳐....
+	// https://woowabros.github.io/experience/2017/10/17/java-serialize.html 참고
+	// Member 에 implements Serializable 해준다.
 	public void logout() {
-		// 자바 시스템 내부에서 사용되는 객체 또는 데이터를 외부의 자바 시스템에서도 사용할 수 있도록 바이트(byte) 형태로 데이터 변환하는 기술과 바이트로 변환된 데이터를 다시 객체로 변환하는 기술
-		// java.io.NotSerializableException 에러 발생!!!!!!!!! 이거 어케 고쳐....
-		// https://woowabros.github.io/experience/2017/10/17/java-serialize.html 참고
-		// Member 에 implements Serializable 해준다.
-		// 직렬화를 위한 스트림 생성
-		FileOutputStream fs = null;
-		ObjectOutputStream os = null;
+		
 		try {
+			// 직렬화를 위한 스트림 생성
+			FileOutputStream fs = null;
+			ObjectOutputStream os = null;
+			
 			// 사용자 객체가 저장된 컬렉션의 크기가 0보다 크다면
 			if (this.map.size() > 0) {				
 				// D:\\users.data 파일의 스트림 객체 생성
-				fs = new FileOutputStream(USER_FILE);
+				fs = new FileOutputStream(MEMBER_FILE);
 				os = new ObjectOutputStream(fs);
 				// 컬렉션 저장소에 저장된 모든 정보를 직렬화 시도
 				os.writeObject(this.map);
+				
+				try {
+					// 스트림 닫아주기
+					os.close();
+					fs.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				// 스트림 닫아주기
-				os.close();
-				fs.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 	
 	// 파일 저장용 메소드 선언
-	// @Param 파일 이름이 포함된 경로(USER_FILE, BOOK_FILE, CHECKOUT_FILE)
+	// MEMBER_FILE 경로에 저장
 	public Object deSerialization(String fileName) {
 		// 역직렬화한 객체를 반환하기 위한 Object 변수 선언
 		Object result = null;

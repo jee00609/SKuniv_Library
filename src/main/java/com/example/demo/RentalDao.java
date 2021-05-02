@@ -23,7 +23,7 @@ public class RentalDao {
 	
 	
 	private Map<String, Rental> map = new HashMap<String, Rental>();
-	private static final String RENTAL_FILE = "rentals.data"; // 대여 정보를 저장할 파일 경로 및 파일 이름
+	private static final String RENTAL_FILE = "rentals.dat"; // 대여 정보를 저장할 파일 경로 및 파일 이름
 	
 	// 파일 불러오기를 위한 메소드 선언
 	// obj 캐스팅 컴파일 경고를 사용하지 않도록 설정
@@ -61,7 +61,7 @@ public class RentalDao {
 		
 		while (it.hasNext()) {
 			String keyTemp = (String) it.next();
-			// Book 타입의 임시 변수 선언 후 map 맵 객체의 값 할당
+			// Rental 타입의 임시 변수 선언 후 map 맵 객체의 값 할당
 			Rental r = this.map.get(keyTemp);
 			// 매개변수로 입력받은 도서 제목과 일치하는 값이 있다면
 			if (r.getUserEmail().equals(myemail)) {
@@ -74,6 +74,7 @@ public class RentalDao {
 		return list;
 	}
 	
+	// 연체 인지 아닌지 확인하는 함수
 	public void showOverdue(String bookISBN) {
 		Rental rental = map.get(bookISBN);
 		
@@ -81,17 +82,40 @@ public class RentalDao {
 		LocalDate duedate = map.get(rental.getBookISBN()).getDueDate();
 		String email = map.get(bookISBN).getUserEmail();
 		
+		// 현재날짜가 반납 예정 만기일 보다 지났으면
 		if (today.isAfter(duedate)) {
 			long period = ChronoUnit.DAYS.between(today,duedate);
+			period = period*(-1);
 			System.out.println(email+" 님이 "+period+"일 만큼 연체중 입니다.");
 		}
+		// 아닐 경우
 		else {
 			long period = ChronoUnit.DAYS.between(today,duedate);
 			System.out.println("현재 이책은 "+period+"일 만큼 남았습니다.");
 		}
+
+	}
+	
+	//infoPrinter 에서 사용할 친구
+	public int UserOverdue(String bookISBN) {
+		Rental rental = map.get(bookISBN);
 		
+		LocalDate today = LocalDate.now();
+		LocalDate duedate = map.get(rental.getBookISBN()).getDueDate();
+		String email = map.get(bookISBN).getUserEmail();
 		
-		
+		// 현재날짜가 반납 예정 만기일 보다 하루 이상 지났으면
+		if (today.isAfter(duedate)) {
+			long period = ChronoUnit.DAYS.between(today,duedate);
+			period = period*(-1);
+			return 1;
+		}
+		// 아닐 경우
+		else {
+			long period = ChronoUnit.DAYS.between(today,duedate);
+			return 0;
+		}
+
 	}
 	
 	//대여
@@ -101,24 +125,20 @@ public class RentalDao {
 	}
 	
 	//반납
+	//이거 제대로 안되요...
+	// Book 모델 고쳐서 반납 기능 다시 구현했다
+	// 아니 다시되네 혹시 모르니 남겨두자
 	public void remove(String bookISBN) {
 		map.remove(bookISBN);
 	}
 	
+	// BookDao MemberDao 에 있는 logout과 똑같다.
 	public void logout() {
-		// 자바 시스템 내부에서 사용되는 객체 또는 데이터를 외부의 자바 시스템에서도 사용할 수 있도록 바이트(byte) 형태로 데이터 변환하는 기술과 바이트로 변환된 데이터를 다시 객체로 변환하는 기술
-		// java.io.NotSerializableException 에러 발생!!!!!!!!! 이거 어케 고쳐....
-		// https://woowabros.github.io/experience/2017/10/17/java-serialize.html 참고
-		// Member 에 implements Serializable 해준다.
-		// 직렬화를 위한 스트림 생성
+		
 		try {
 			// 사용자 객체가 저장된 컬렉션의 크기가 0보다 크다면
 			if (this.map.size() > 0) {	
-				
-				// 자바 시스템 내부에서 사용되는 객체 또는 데이터를 외부의 자바 시스템에서도 사용할 수 있도록 바이트(byte) 형태로 데이터 변환하는 기술과 바이트로 변환된 데이터를 다시 객체로 변환하는 기술
-				// java.io.NotSerializableException 에러 발생!!!!!!!!! 이거 어케 고쳐....
-				// https://woowabros.github.io/experience/2017/10/17/java-serialize.html 참고
-				// Member 에 implements Serializable 해준다.
+			
 				// 직렬화를 위한 스트림 생성
 				FileOutputStream fs = null;
 				ObjectOutputStream os = null;
@@ -137,7 +157,7 @@ public class RentalDao {
 					e.printStackTrace();
 				}
 			}
-			else System.out.println("rental size <=0");
+//			else System.out.println("대여한 책이 하나도 존재하지 않습니다.");
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -145,7 +165,6 @@ public class RentalDao {
 	}
 	
 	// 파일 저장용 메소드 선언
-	// @Param 파일 이름이 포함된 경로(RENTAL_FILE)
 	public Object deSerialization(String fileName) {
 		// 역직렬화한 객체를 반환하기 위한 Object 변수 선언
 		Object result = null;

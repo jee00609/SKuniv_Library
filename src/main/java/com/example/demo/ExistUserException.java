@@ -1,13 +1,11 @@
 package com.example.demo;
 
+//LoginRequestService 및 ChangePasswordService 에서 사용하는 exception 클래스
 public class ExistUserException extends Exception {
 
-	public ExistUserException() {
-		super();
+	public ExistUserException(String message) {
+		super(message);
 	}
 
-	public ExistUserException(String arg0) {
-		super(arg0);
-	}
 
 }

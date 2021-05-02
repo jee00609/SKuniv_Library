@@ -51,9 +51,10 @@ public class RentalRequestService {
 		
 		rentalDate = LocalDate.now();
 		rentalReq.setRentalDate(rentalDate);
-		//현재 날짜에서 7일 더한다
+		//7일로 하고 싶다만 test 용으로 1일로 지정
+		//현재 날짜에서 1일 더한다
 		//반납 예정 만기일
-		dueDate = LocalDate.now().plusDays(7);
+		dueDate = LocalDate.now().plusDays(1);
 		rentalReq.setDueDate(dueDate);
 		
 		Book book = bookDao.selectByBookISBN(rentalReq.getBookISBN());

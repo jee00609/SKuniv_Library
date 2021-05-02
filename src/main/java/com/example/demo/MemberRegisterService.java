@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+//회원가입 기능
 public class MemberRegisterService {
 	
 	private MemberDao memberDao;
@@ -45,12 +47,17 @@ public class MemberRegisterService {
 		req.setPhone(phone);
 		
 		Member member = memberDao.selectByEmail(req.getEmail());
+		// 입력한 이메일로 이미 회원이 존재할 경우
 		if (member != null) {
 			throw new AlreadyExistingException("중복 email " + req.getEmail());
+			
+		}
+		// 없을 경우
+		else {
+			Member newMember = new Member(req.getEmail(), req.getPassword(),req.getName(),req.getPhone(), LocalDate.now());
+			
+			memberDao.insert(newMember);
 		}
 		
-		Member newMember = new Member(req.getEmail(), req.getPassword(),req.getName(),req.getPhone(), LocalDate.now());
-		
-		memberDao.insert(newMember);
 	}
 }

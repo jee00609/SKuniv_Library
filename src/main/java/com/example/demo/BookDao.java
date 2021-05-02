@@ -17,11 +17,14 @@ import java.util.Set;
 
 public class BookDao {
 	
-
+	//ppt 참고해서 bookNo 를 쓰긴하는데 얘를 프라이머리 키로 하고 싶었던 걸까?
+	//난 ISBN 으로 프라이머리키를 지정했지만 PPT 대로 하기 위해 작성했다.
 	private static long bookNo;
-
+	//ppt 를 참고했더니 해시맵으로 저장하더라
 	private Map<String, Book> map = new HashMap<String, Book>();
-	private static final String BOOK_FILE = "books.data"; // 도서 정보를 저장할 파일 경로 및 파일 이름
+	// 도서 정보를 저장할 파일 경로 및 파일 이름
+	// 참고 -https://blog.naver.com/funcyboy/80090152278
+	private static final String BOOK_FILE = "books.dat"; 
 	
 	// 파일 불러오기를 위한 메소드 선언
 	// obj 캐스팅 컴파일 경고를 사용하지 않도록 설정
@@ -85,6 +88,7 @@ public class BookDao {
 		map.remove(bookISBN);
 	}
 	
+	//전체 책을 보여준다.
 	public void showAllBooks() {
 		System.out.println();
 		System.out.println("전체 도서 목록 입니다.");
@@ -97,6 +101,9 @@ public class BookDao {
 		
 		List<String> list = new ArrayList<String>(key);
 		
+		// sort() = 오름차순 와 reverse() = 내림차순
+		// 참고 - https://devlog-wjdrbs96.tistory.com/68
+		// 참고 - https://wjheo.tistory.com/entry/Java-%EC%A0%95%EB%A0%AC%EB%B0%A9%EB%B2%95-Collectionssort
 		Collections.sort(list, new Comparator<String>() {
 			@Override
 			public int compare(String b1, String b2) {
@@ -113,25 +120,21 @@ public class BookDao {
 		System.out.println(sb.toString());
 	}
 	
+	// books.data 파일 생성을 위해 만든다.
+	// 자바 시스템 내부에서 사용되는 객체 또는 데이터를 외부의 자바 시스템에서도 사용할 수 있도록 바이트(byte) 형태로 데이터 변환하는 기술과 바이트로 변환된 데이터를 다시 객체로 변환하는 기술
+	// java.io.NotSerializableException 에러 발생!!!!!!!!! 이거 어케 고쳐....
+	// https://woowabros.github.io/experience/2017/10/17/java-serialize.html 참고
+	// Book 에 implements Serializable 해준다.
 	public void logout() {
-		// 자바 시스템 내부에서 사용되는 객체 또는 데이터를 외부의 자바 시스템에서도 사용할 수 있도록 바이트(byte) 형태로 데이터 변환하는 기술과 바이트로 변환된 데이터를 다시 객체로 변환하는 기술
-		// java.io.NotSerializableException 에러 발생!!!!!!!!! 이거 어케 고쳐....
-		// https://woowabros.github.io/experience/2017/10/17/java-serialize.html 참고
-		// Member 에 implements Serializable 해준다.
-		// 직렬화를 위한 스트림 생성
 		try {
 			// 사용자 객체가 저장된 컬렉션의 크기가 0보다 크다면
 			if (this.map.size() > 0) {	
 				
-				// 자바 시스템 내부에서 사용되는 객체 또는 데이터를 외부의 자바 시스템에서도 사용할 수 있도록 바이트(byte) 형태로 데이터 변환하는 기술과 바이트로 변환된 데이터를 다시 객체로 변환하는 기술
-				// java.io.NotSerializableException 에러 발생!!!!!!!!! 이거 어케 고쳐....
-				// https://woowabros.github.io/experience/2017/10/17/java-serialize.html 참고
-				// Member 에 implements Serializable 해준다.
 				// 직렬화를 위한 스트림 생성
 				FileOutputStream fs = null;
 				ObjectOutputStream os = null;
 				
-				// users.data 파일의 스트림 객체 생성
+				// books.data 파일의 스트림 객체 생성
 				fs = new FileOutputStream(BOOK_FILE);
 				os = new ObjectOutputStream(fs);
 				// 컬렉션 저장소에 저장된 모든 정보를 직렬화 시도
@@ -154,7 +157,6 @@ public class BookDao {
 	}
 	
 	// 파일 저장용 메소드 선언
-	// @Param 파일 이름이 포함된 경로(BOOK_FILE)
 	public Object deSerialization(String fileName) {
 		// 역직렬화한 객체를 반환하기 위한 Object 변수 선언
 		Object result = null;

@@ -2,7 +2,8 @@ package com.example.demo;
 
 import java.time.LocalDate;
 import java.util.Date;
-
+//대여 등록시 사용자가 입력한 값을 받고 그것을 다시 가져올 수 있도록 하는 기능 제공
+//스프링 5 입문 63페이지 참고
 public class RentalRegistRequest {
 
 	//책 ISBN

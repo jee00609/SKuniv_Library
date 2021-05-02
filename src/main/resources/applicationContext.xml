@@ -34,5 +34,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="rentalReqSvc" class="com.example.demo.RentalRequestService"></bean>
 	<bean id="rentalRetSvc" class="com.example.demo.RentalReturnService"></bean>
 
+	<bean id="noticeDao" class="com.example.demo.NoticeDao" > </bean>
+	<bean id="noticePrinter" class="com.example.demo.NoticePrinter" > </bean>
+	<bean id="noticeSvc" class="com.example.demo.NoticeService"></bean>
 </beans>
 

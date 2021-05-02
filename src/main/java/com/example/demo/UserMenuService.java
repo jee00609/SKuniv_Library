@@ -10,6 +10,8 @@ public class UserMenuService {
 		
 		int input = 0;
 		
+		
+		// 회원 메인 화면
 		while (true) {
 			try {
 				System.out.println();
@@ -22,7 +24,7 @@ public class UserMenuService {
 				input = sc.nextInt();
 				sc.nextLine();
 				
-				// 관리자 로그아웃
+				// 사용자 로그아웃
 				if ((input != 0)&&(input != 1)&&(input != 2)&&(input != 3)&&(input != 4)&&(input != 5)) {
 					System.out.println("알 수 없는 입력입니다. 다시 입력해주세요.");
 				}

@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+// 반납 기능
 public class RentalReturnService {
 
 	Scanner sc = new Scanner(System.in);
@@ -47,16 +48,24 @@ public class RentalReturnService {
 		
 		Rental rental = rentalDao.selectByBookISBN(bookISBN);
 //		System.out.println("왜 비어있니 rental 아아악 "+rental);
-		if(rental.getBookISBN().equals(bookISBN)&&rental.getUserEmail().equals(user)) {
-			Book book = bookDao.selectByBookISBN(bookISBN);
-			rentalDao.remove(bookISBN);
-			book.setBookStatus("비치중");
-			book.setRentalUsers(null);
+		//책이 존재할 경우
+		if (rental!=null) {
+			if(rental.getBookISBN().equals(bookISBN)&&rental.getUserEmail().equals(user)) {
+				Book book = bookDao.selectByBookISBN(bookISBN);
+				//이걸 지우면 히스토리 기능이 된다.
+//				rentalDao.remove(bookISBN);
+				// Book 의 상태를 대여 가능하도록 다시 조정
+				book.setBookStatus("비치중");
+				// Book 을 빌린 사람이 없도록 조정
+				book.setRentalUsers(null);
+			}
+			else {
+				System.out.println("대여한 책이 아닙니다.");
+			}
 		}
 		else {
-			System.out.println("대여한 책이 아닙니다.");
+			System.out.println("해당 ISBN 의 책은 존재하지 않습니다.");
 		}
-		
 		
 	}
 	
