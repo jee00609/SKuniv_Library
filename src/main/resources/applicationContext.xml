@@ -9,33 +9,52 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<context:annotation-config />
 	
 	<bean id="memberDao" class="com.example.demo.MemberDao" > </bean>
-	<bean id="memberRegSvc" class="com.example.demo.MemberRegisterService"></bean>
+	<bean id="memberRegSvc" class="com.example.demo.MemberRegisterService">
+		<constructor-arg ref="memberDao" />	
+	</bean>
 	
 	<bean id="infoPrinter" class="com.example.demo.InfoPrinter"></bean>
 	<bean id="memberPrinter" class="com.example.demo.MemberPrinter"></bean>
 	<bean id="bookPrinter" class="com.example.demo.BookPrinter"></bean>
 	<bean id="rentalPrinter" class="com.example.demo.RentalPrinter"></bean>
 	
-	<bean id="logoutSvc" class="com.example.demo.LogoutService"></bean>
-	<bean id="loginReqSvc" class="com.example.demo.LoginRequestService"></bean>
+	<bean id="logoutSvc" class="com.example.demo.LogoutService">
+		<constructor-arg ref="memberDao" />	
+	</bean>
+	<bean id="loginReqSvc" class="com.example.demo.LoginRequestService">
+		<constructor-arg ref="memberDao" />	
+	</bean>
 	
-	<bean id="changePwSvc" class="com.example.demo.ChangePasswordService"></bean>
+	<bean id="changePwSvc" class="com.example.demo.ChangePasswordService">
+		<constructor-arg ref="memberDao" />	
+	</bean>
 	
 	<bean id="adminMnSvc" class="com.example.demo.AdminMenuService"></bean>
 	<bean id="adminSBMnSvc" class="com.example.demo.AdminSubBookMenuService"></bean>
 	
 	<bean id="userMnSvc" class="com.example.demo.UserMenuService"></bean>
 	
-	<bean id="bookDao" class="com.example.demo.BookDao" > </bean>
-	<bean id="bookRegSvc" class="com.example.demo.BookRegisterService"></bean>
-	<bean id="bookDelSvc" class="com.example.demo.BookDeleteService"></bean>
+	<bean id="bookDao" class="com.example.demo.BookDao" ></bean>
+	<bean id="bookRegSvc" class="com.example.demo.BookRegisterService">
+		<constructor-arg ref="bookDao" />	
+	</bean>
+	<bean id="bookDelSvc" class="com.example.demo.BookDeleteService">
+		<constructor-arg ref="bookDao" />	
+	</bean>
 	
 	<bean id="rentalDao" class="com.example.demo.RentalDao" > </bean>
-	<bean id="rentalReqSvc" class="com.example.demo.RentalRequestService"></bean>
-	<bean id="rentalRetSvc" class="com.example.demo.RentalReturnService"></bean>
+	<bean id="rentalReqSvc" class="com.example.demo.RentalRequestService">
+		<constructor-arg ref="rentalDao" />	
+	</bean>
+	<bean id="rentalRetSvc" class="com.example.demo.RentalReturnService">
+		<constructor-arg ref="rentalDao" />	
+	</bean>
 
 	<bean id="noticeDao" class="com.example.demo.NoticeDao" > </bean>
-	<bean id="noticePrinter" class="com.example.demo.NoticePrinter" > </bean>
-	<bean id="noticeSvc" class="com.example.demo.NoticeService"></bean>
+	<bean id="noticePrinter" class="com.example.demo.NoticePrinter" ></bean>
+	
+	<bean id="noticeSvc" class="com.example.demo.NoticeService">
+		<constructor-arg ref="noticeDao" />	
+	</bean>
 </beans>
 
