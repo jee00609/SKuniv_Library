@@ -7,7 +7,7 @@ import java.util.Date;
 //스프링 5 입문 63페이지 참고
 public class LoginRequest {
 	
-	//PPT 참고해서 사용한 ID
+	//책 참고해서 사용한 ID
 	private Long id;
 	// e-mail 인데 이 친구가 프라이머리키다.
 	private String email;

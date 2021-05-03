@@ -12,7 +12,7 @@ public class Book implements Serializable{
 	private String bookISBN;
 	//책의 제목
 	private String bookTitle;
-	//책의 제목
+	//책의 저자
 	private String author;
 	//책의 출판사
 	private String publisher;

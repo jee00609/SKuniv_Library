@@ -7,7 +7,7 @@ import java.util.Date;
 //대여 모델
 public class Rental implements Serializable{
 	
-	// PPT 참고해서 구현
+	// 스프링 5 입문 참고해서 구현
 	// 솔직히 꼭 필요한 변수라곤 볼 수 없는 듯
 	private long rentalNo;
 
@@ -17,7 +17,7 @@ public class Rental implements Serializable{
 	private String userEmail;
 	//언제 책 빌렸는지 (연체)
 	private LocalDate rentalDate;
-	//반납 예정 만기일(7일로 잡는다) - 연체 인지 아닌지 알 수 있도록!
+	//반납 예정 만기일(1일로 잡는다-테스팅) - 연체 인지 아닌지 알 수 있도록!
 	private LocalDate dueDate;
 	//연체 기간 알아보기
 	//함수를 만들었는데 이 변수를 사용안했다.

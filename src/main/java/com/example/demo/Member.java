@@ -18,6 +18,7 @@ public class Member implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	//회원 id 번호다. 닉네임 id 가 아니다.
+	//스프링 입문 5 참고
 	private Long id;
 	// e-mail 프라이머리 키
 	private String email;

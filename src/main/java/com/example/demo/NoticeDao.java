@@ -30,6 +30,7 @@ public class NoticeDao {
 	
 	// 파일 불러오기를 위한 메소드 선언
 	// obj 캐스팅 컴파일 경고를 사용하지 않도록 설정
+	// https://blog.naver.com/funcyboy/80090152278 참고
 	@SuppressWarnings("unchecked")
 	public NoticeDao() {
 		File file = new File(NOTICE_FILE);

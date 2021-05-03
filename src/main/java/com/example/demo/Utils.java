@@ -6,6 +6,7 @@ public class Utils {
 
 
 	//관리자 이메일이자 비번
+	//여길 바꾸면 관리자 로그인 이메일이 변경된다!
 	private final String ADMIN = "admin";
 
 	//https://shxrecord.tistory.com/132
@@ -21,8 +22,6 @@ public class Utils {
 	}
 
 	//https://shxrecord.tistory.com/132
-	//싱글톤 패턴
-	//private final String ADMIN  에 final 을 붙였기 때문에 싱글톤 패턴을 이용한것
 	public static synchronized Utils getInstance() {
 		if (utils == null) {
 			utils = new Utils();
